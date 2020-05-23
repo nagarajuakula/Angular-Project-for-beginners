@@ -1,5 +1,7 @@
 <div class="container">
     <div class="row">
+        <div class="col-xl-12 alert alert-danger"
+        *ngIf="redirectMessage">{{ redirectMessage }}</div>
         <div class="col-xl-12">
             <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
                 <div class="form-group">
