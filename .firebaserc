@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ng-recipe-book-2a04d": {
+      "hosting": {
+        "First-App": [
+          "ng-recipe-book-2a04d"
+        ]
+      }
+    }
+  }
+}

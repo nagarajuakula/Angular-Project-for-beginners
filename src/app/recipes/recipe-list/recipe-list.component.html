@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-xl-12">
+        <button class="btn btn-success" routerLink="/recipes/new">New Recipe</button>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-xl-12" *ngFor="let recipeItem of recipes; let i = index">
+        <app-recipe-item [recipe]="recipeItem" [index]= "i"
+        ></app-recipe-item>
+    </div>
+    <!-- <div class="col-xl-12" *ngIf="isLoading">Loading Recipies</div> -->
+    <div class="col-xl-5" *ngIf="isLoading" style="text-align: center">
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+    </div>
+    <div class="col-xl-12" *ngIf="recipes?.length === 0" style="text-align: center;"><h2>Add New Recipes</h2></div>
+</div>

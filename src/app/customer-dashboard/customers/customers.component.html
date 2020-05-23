@@ -1,0 +1,47 @@
+<!-- <div class="row">
+    <div class="col-xl-12" *ngFor="let customer of customers">
+            <app-customer [customer]="customer"></app-customer>
+    </div>
+</div> -->
+<div class="col-xl-12" *ngIf="customerService.isLoading" style="text-align: center">
+    <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+</div>
+<div class="row">
+    <div class="col-xl-5"  *ngIf="!customerService.isLoading">
+        <div class="row">
+            <div class="col-xl-12"  *ngIf="customers?.length === 0">
+                <h3>No Customers to display. </h3>
+            </div>
+            <div class="col-xl-12">
+                <button class="btn btn-success" (click)="addCustomer()">Add Customer</button>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="row" *ngIf="customers?.length > 0">
+                <div class="col-xl-6"><strong>Id</strong></div>
+                <div class="col-xl-6"><strong>Name</strong></div>
+            </div>
+        </div>
+            <div class="col-xl-12" *ngFor="let customer of customers">
+                <!-- <hr> -->&nbsp;
+                <div class="row">
+                    <div [routerLink]="[customer.id, 'edit']"
+                        style="cursor: pointer;"
+                        routerLinkActive="active"
+                        class="list-group-item clearfix col-xl-12">
+                        <div class="row" appHighlight highlightColor="blue">
+                            <div class="col-xl-6"><span class="badge">{{ customer.id }}</span></div>
+                            <div class="col-xl-6">{{ customer.name }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-xl-7">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Id</th>
+            <th scope="col">Job</th>
+            <th scope="col">Address</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.id }}</td>
+            <td>{{ customer.job }}</td>
+            <td>{{ customer.address }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div *unless="customer.editMode">
+    <router-outlet></router-outlet>
+</div>
