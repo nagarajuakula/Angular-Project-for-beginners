@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,13 +7,23 @@ import { ActivatedRoute, Router } from '@angular/router';
     selector: 'app-auth',
     templateUrl: 'auth-component.html'
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
 
     message: string;
+    redirectMessage: string;
+    redirectUrl: string;
+
     constructor(public authService: AuthService,
                 private router: Router,
                 private activatedRoute: ActivatedRoute) {}
 
+    ngOnInit() {
+      const queryParams = this.activatedRoute.snapshot.queryParams;
+      this.redirectUrl = queryParams ? queryParams['redirectTo'] : null;
+      if(this.redirectUrl) {
+        this.redirectMessage = "Please login to view 'Customers' page";
+      }
+    }
     onSubmit(form: NgForm) {
         let email = form.controls.email;
         let password = form.controls.password;
@@ -26,27 +36,17 @@ export class AuthComponent {
 
       login() {
         this.message = 'Trying to log in ...';
-        const queryParams = this.activatedRoute.snapshot.queryParams;
-        const redirectUrl = queryParams ? queryParams['redirectTo'] : null;
+        
         this.authService.checkLogin().subscribe( () => {
           this.setMessage();
-          this.authService.isLoggedIn = true;
-          if(redirectUrl) {
+          if(this.redirectUrl) {
             // redirecting to original page after login
-           this.router.navigateByUrl(redirectUrl);
+            this.router.navigateByUrl(this.redirectUrl);
           }
         });
-        
-        // const queryParams = this.activatedRoute.snapshot.queryParams;
-        // const redirectUrl = queryParams ? queryParams['redirectTo'] : null;
-        // if(redirectUrl) {
-        //   // redirecting to original page after login
-        //  this.router.navigateByUrl(redirectUrl);
-        // }
       }
     
       logout() {
-        this.authService.isLoggedIn = false;
         this.authService.logout();
         this.setMessage();
       }
