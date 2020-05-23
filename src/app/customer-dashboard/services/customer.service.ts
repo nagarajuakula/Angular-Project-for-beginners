@@ -11,8 +11,6 @@ import { Customer } from '../data/customer.model';
 export class CustomerService{
 
   private customers: Customer[] ;
-  // private customers: Customer[] = [new Customer('raju', 'Engineer', 'Choutuppal', 2101, false),
-  //                         new Customer('Chandrika', 'Lecturer', 'Badangpet', 2109, false)];
 
   customersUpdated = new Subject<Customer[]>();
   lastAddedUserId: number;
@@ -24,8 +22,13 @@ export class CustomerService{
     // this.customersUpdated.subscribe(customers => {
     //   this.customers = customers;
     // });
+
+    // using interceptor to make isLoading = true, so that spinner works
     this.customers = [];
-    return this.httpClient.get<Customer[]>('https://ng-recipe-book-2a04d.firebaseio.com/customers/customerList.json').
+    return this.httpClient.get<Customer[]>('https://ng-recipe-book-2a04d.firebaseio.com/customers/customerList.json',
+    {
+      reportProgress: true
+    }).
     pipe(map(response => {
       for (const key in response) {
         if (response.hasOwnProperty(key)) {
@@ -36,12 +39,6 @@ export class CustomerService{
       return this.customers.map(customer => {
         return { ...customer};
       },
-
-      // () => {
-      //   console.log("in Complete recipe service");
-      //   this.lastAddedUserId = this.customers.length;
-      //   this.emitCustomersInfo();
-      // }
       );
     }));
   }
@@ -58,8 +55,8 @@ export class CustomerService{
   }
 
   updateCustomer(id: number, key: string, updatedCustomer: Customer) {
+    // using interceptor to make isLoading = true, so that spinner works
     const url = 'https://ng-recipe-book-2a04d.firebaseio.com/customers/customerList/' + key + '.json';
-    // console.log("Update url is " + url);
     this.httpClient.put<Customer>(url, updatedCustomer, {reportProgress: true}).
     pipe(map(result => {
       for(let i = 0; i < this.customers.length; i++) {
