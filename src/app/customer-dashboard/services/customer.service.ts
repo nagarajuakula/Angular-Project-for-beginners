@@ -71,12 +71,8 @@ export class CustomerService{
       this.isLoading = false;
     })).
     subscribe(
-      result => { 
-        console.log("result in update subscribe");
-        console.log(result);
-      },
       error => {
-        //console.log("Error in update");
+        console.log("Error in update Customer");
         console.log(error);
       }
       
@@ -99,7 +95,9 @@ export class CustomerService{
    */
   deleteCustomer(customerId: number, customerKey: string) {
     
-    this.httpClient.delete('https://ng-recipe-book-2a04d.firebaseio.com/customers/customerList/' + customerKey + '.json?')
+    this.httpClient.delete('https://ng-recipe-book-2a04d.firebaseio.com/customers/customerList/' + customerKey + '.json', {
+      reportProgress: true
+    })
     .subscribe(result => {
       for( let i=0; i< this.customers.length; i++) {
         if(this.customers[i].key === customerKey) {

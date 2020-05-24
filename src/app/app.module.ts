@@ -17,7 +17,7 @@ import { ShoppingListService } from './services/shopping-list.service';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeService } from './services/recipe.service';
 import { FilterPipe } from './recipes/filter.pipe'; 
-import { CustomerInterceptor } from './customer-interceptor';
+import { CacheInterceptor } from './cache-interceptor';
 import { AuthModule } from './Auth/auth.module';
 
 @NgModule({
@@ -44,7 +44,7 @@ import { AuthModule } from './Auth/auth.module';
   ],
   providers: [ShoppingListService, RecipeService,
               {
-                provide: HTTP_INTERCEPTORS, useClass: CustomerInterceptor, multi: true
+                provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true
               }],
   bootstrap: [AppComponent]
 })

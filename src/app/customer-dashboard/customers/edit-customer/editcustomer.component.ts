@@ -29,7 +29,7 @@ export class EditcustomerComponent implements OnInit {
       this.customerId = +params[`id`];
       if(this.customerId) {
         this.isEditMode = true;
-        // TODO: Getting error when we load edit customer page directly
+        // To avoid error when we load edit customer page directly, use resolver
         this.editCustomer = this.customerService.getCustomerById(this.customerId);
 
       }else {

@@ -1,32 +1,31 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subject, Observable, of } from 'rxjs';
+import { map, isEmpty } from 'rxjs/operators';
 
 import { Recipe } from '../recipes/recipe.model';
-import { Ingredient } from '../shared/ingredient.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class RecipeService {
 
-//   private recipes: Recipe[] = [new Recipe('A Test Recipe', 'Description of Recipe',
-//   'https://assets.bonappetit.com/photos/5d7296eec4af4d0008ad1263/16:9/w_1200,c_limit/Basically-Gojuchang-Chicken-Recipe-Wide.jpg'),
-// new Recipe('Another Test Recipe', 'Description of Another Recipe',
-//   'https://assets.bonappetit.com/photos/5d7296eec4af4d0008ad1263/16:9/w_1200,c_limit/Basically-Gojuchang-Chicken-Recipe-Wide.jpg')];
-
-private recipes: Recipe[];
+ recipes: Recipe[] = [];
 // private recipes: Recipe[] = [new Recipe('A Test Recipe', 'Description of Recipe',
 //   './assets/images/IMG_0069.JPG', [new Ingredient('Bread', 5), new Ingredient('Meat', 1)]),
 // new Recipe('Another Test Recipe', 'Description of Another Recipe',
 //   './assets/images/IMG_0077.JPG', [new Ingredient('Curry leaves', 5), new Ingredient('Potato', 2)])];
   selectedRecipe =  new EventEmitter<Recipe>();
   onRecipeAdded = new Subject<Recipe[]>();
+  isLoading = false;
 
   constructor(private httpClient: HttpClient) { }
 
   getRecipeList(): Observable<Recipe[]> {
-    this.recipes = [];
-    return this.httpClient.get<Recipe[]>('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList.json').
+    if(this.recipes.length !== 0) {
+      return of(this.recipes);
+    }
+    return this.httpClient.get<Recipe[]>('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList.json', {
+      reportProgress: true
+    }).
     pipe(map(response => {
       for (const key in response) {
         if (response.hasOwnProperty(key)) {
@@ -42,11 +41,6 @@ private recipes: Recipe[];
       }
       );
     }));
-    // if (this.recipes.length > 0) {
-    //   return this.recipes.slice();
-    // }
-    // return null;
-    // return this.recipes;
   }
 
   getRecipe(index: number) {
@@ -54,28 +48,39 @@ private recipes: Recipe[];
   }
 
   addRecipe(recipe: Recipe) {
-    this.httpClient.post<string>('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList.json', recipe).
+    this.httpClient.post<string>('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList.json', recipe, {
+      reportProgress: true
+    }).
     pipe(map(id => {
       recipe.id = id;
       this.recipes.push(recipe);
       this.onRecipeAdded.next(this.recipes.slice());
+      this.isLoading = false;
     })).
     subscribe();
   }
 
   updateRecipe(index: number, recipe: Recipe) {
-    this.recipes[index] = recipe;
-    this.httpClient.put('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList.json', this.recipes).
+    this.httpClient.put('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList/' + recipe.id + '.json', recipe, {
+      reportProgress: true
+    }).
     subscribe(response => {
+      this.recipes[index] = recipe;
       this.onRecipeAdded.next(this.recipes.slice());
+      this.isLoading = false;
     });
   }
 
-  deleteRecipe(index: number) {
-    this.recipes.splice(index, 1);
-    this.httpClient.put('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList.json', this.recipes).
+  deleteRecipe(index: number, recipeId: string) {
+    
+    this.httpClient.delete('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList/' + recipeId + '.json',
+    {
+      reportProgress: true
+    }).
     subscribe(response => {
+      this.recipes.splice(index, 1);
       this.onRecipeAdded.next(this.recipes.slice());
+      this.isLoading = false;
     });
   }
 }

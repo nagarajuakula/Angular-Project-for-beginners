@@ -11,7 +11,9 @@ import { AuthComponent } from './Auth/auth.component';
 
 const appRoutes: Routes = [
     {
-        path: 'login', component: AuthComponent
+        path: 'login', 
+        loadChildren: () => import('./Auth/auth.module').
+                                then(m=>m.AuthModule)
     },
     { 
         path: '', redirectTo: '/recipes', pathMatch: 'full' 
@@ -19,17 +21,16 @@ const appRoutes: Routes = [
     { 
         path: 'customers', 
         loadChildren: () => import('./customer-dashboard/customer-dashboard.module').then(m =>
-            m.CustomerDashboardModule)
+            m.CustomerDashboardModule),
+        canLoad: [CanActivateGuard],
     },
     {
-    path: 'recipes', component: RecipesComponent, children: [
+    path: 'recipes', component: RecipesComponent, 
+    resolve: { recipes: RecipesResolverService },
+    children: [
         { path: 'new', component: RecipeEditComponent },
         { path: ':id', component: RecipeDetailComponent },
-        { 
-            path: ':id/edit', 
-            component: RecipeEditComponent, 
-            resolve: { recipes: RecipesResolverService },
-        }
+        { path: ':id/edit', component: RecipeEditComponent }
     ]
     },
     { 

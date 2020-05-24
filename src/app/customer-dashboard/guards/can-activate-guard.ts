@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, 
          RouterStateSnapshot, CanActivateChild, Router, CanLoad, Route } from '@angular/router'
 import { Observable } from 'rxjs';
-import { LoginService } from '../services/login.service';
+import { AuthService } from 'src/app/services/auth.service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class CanActivateGuard implements CanActivate, CanActivateChild, CanLoad {
 
     constructor(private router: Router,
-                private loginService: LoginService) {
+                private authService: AuthService) {
 
     }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean>  {
-        // let customerId = this.custService.getCustomerById(+route.params['id']); 
-        // return customerId ? true: false;
-        if(this.loginService.isLoggedIn) {
+        if(this.authService.isLoggedIn) {
             return true;
         }
-        this.router.navigateByUrl("/login", {queryParams: {
+        this.router.navigate(["/login"], {queryParams: {
             redirectTo: state.url
         }});
         return false;
@@ -28,12 +28,13 @@ export class CanActivateGuard implements CanActivate, CanActivateChild, CanLoad 
     }
 
     canLoad(route: Route): boolean {
-        let url = `/${route.path}`;
-
-        if(this.loginService.isLoggedIn) {
+         let url = `/${route.path}`;
+        if(this.authService.isLoggedIn) {
             return true;
         }
-        this.router.navigate([url]);
+        this.router.navigate(["/login"], {queryParams: {
+            redirectTo: url
+        }});
         return false;
     }
 }

@@ -9,24 +9,22 @@ import { Observable } from 'rxjs';
   styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit {
-  recipes: Recipe[] ;
   recipesList$: Observable<Recipe[]>;
-  isLoading = false;
 
-  constructor(private recipeService: RecipeService) {
+  constructor(public recipeService: RecipeService) {
    }
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.recipeService.isLoading = true;
     this.recipeService.onRecipeAdded.subscribe(
       (modifiedRecipes: Recipe[]) => {
-          this.recipes = modifiedRecipes;
+          this.recipeService.recipes = modifiedRecipes;
     });
     this.recipesList$ = this.recipeService.getRecipeList();
     this.recipesList$.subscribe(
       recipeList => {
-        this.recipes = recipeList;
-        this.isLoading = false;
+        this.recipeService.recipes = recipeList;
+        this.recipeService.isLoading = false;
       },
       error => {
         console.log('Error is ' + error.message);
