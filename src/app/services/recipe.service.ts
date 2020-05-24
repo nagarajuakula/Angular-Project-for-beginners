@@ -61,7 +61,8 @@ export class RecipeService {
   }
 
   updateRecipe(index: number, recipe: Recipe) {
-    this.httpClient.put('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList/' + recipe.id + '.json', recipe, {
+    const recipeKey = recipe.id["name"] ? recipe.id["name"] : recipe.id;
+    this.httpClient.put('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList/' + recipeKey + '.json', recipe, {
       reportProgress: true
     }).
     subscribe(response => {
