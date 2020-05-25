@@ -5,12 +5,8 @@ import { CanActivateGuard } from './customer-dashboard/guards/can-activate-guard
 import { AuthComponent } from './Auth/auth.component';
 
 const appRoutes: Routes = [
-    {
-        path: 'login', 
-        component: AuthComponent
-        // loadChildren: () => import('./Auth/auth.module').
-        //                         then(m=>m.AuthModule)
-    },
+    // here no need to mention child routes if they are 
+    // preloading and included in imports array of app.module.ts
     { 
         path: '', redirectTo: '/recipes', pathMatch: 'full' 
     },
