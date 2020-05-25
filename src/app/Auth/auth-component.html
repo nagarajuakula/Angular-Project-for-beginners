@@ -17,8 +17,6 @@
                 *ngIf="!authService.isLoggedIn">Submit</button>&nbsp;
                 <button class="btn btn-primary" type="button" (click)="login()"
                     *ngIf="!authService.isLoggedIn">Login</button>
-                <button class="btn btn-danger" type="button" (click)="logout()"
-                    *ngIf="authService.isLoggedIn">Logout</button>
             </form>
         </div>
     </div>

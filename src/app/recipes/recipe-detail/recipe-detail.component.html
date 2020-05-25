@@ -23,9 +23,10 @@
                         </button>
                         <ul class="dropdown-menu" [ngClass]="{'show':r.isOpen}">
                             <li>
-                                <a class="dropdown-item" style="cursor: pointer" (click)="addToShoppingList()">To
-                                    Shipping
-                                    List</a>
+                                <a class="dropdown-item" style="cursor: pointer" 
+                                (click)="addToShoppingList()"
+                                *ngIf="recipe.ingredients">
+                                To Shipping List</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" style="cursor: pointer" 

@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CustomerDashboardModule } from '../customer-dashboard.module';
-import { Customer } from '../data/customer.model';
-import { EditcustomerComponent } from '../customers/edit-customer/editcustomer.component';
+import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-export interface CanComponentDeactivate {
-  canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
- }
+import { EditcustomerComponent } from '../customers/edit-customer/editcustomer.component';
 
 @Injectable()
 export class CanDeactivateServiceGuard implements  CanDeactivate<EditcustomerComponent> {

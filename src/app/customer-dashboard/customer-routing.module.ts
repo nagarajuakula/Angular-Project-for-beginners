@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LoginComponent } from './login/login.component';
 import { CustomersComponent } from './customers/customers.component';
 import { EditcustomerComponent } from './customers/edit-customer/editcustomer.component';
 import { CanActivateGuard } from './guards/can-activate-guard';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from './auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -47,8 +47,8 @@ export class AuthComponent implements OnInit {
         });
       }
     
-      logout() {
-        this.authService.logout();
-        this.setMessage();
-      }
+      // logout() {
+      //   this.authService.logout();
+      //   this.setMessage();
+      // }
 }

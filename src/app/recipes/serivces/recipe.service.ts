@@ -1,8 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
-import { map, isEmpty } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
-import { Recipe } from '../recipes/recipe.model';
+import { Recipe } from '../recipe.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()

@@ -7,8 +7,8 @@ import {
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { tap, map } from 'rxjs/operators';
-import { CustomerService } from './customer-dashboard/services/customer.service';
-import { RecipeService } from './services/recipe.service';
+import { CustomerService } from '../customer-dashboard/services/customer.service';
+import { RecipeService } from '../recipes/serivces/recipe.service';
 
 @Injectable({
   providedIn: 'root'
