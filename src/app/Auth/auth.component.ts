@@ -43,6 +43,7 @@ export class AuthComponent implements OnInit {
             // redirecting to original page after login
             this.router.navigateByUrl(this.redirectUrl);
           }
+          this.router.navigate(["/customers"]);
         });
       }
     

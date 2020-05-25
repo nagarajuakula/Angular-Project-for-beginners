@@ -24,20 +24,22 @@
                         routerLink="/customers" 
                         routerLinkActive="active">Customers</a>
                 </li>
-                <li class="nav-tabs">        
+                <li class="nav-tabs" *ngIf="!authService.isLoggedIn">        
                     <a  class="nav-link" 
                         routerLink="/login" 
-                        routerLinkActive="active">Authenticate</a>
+                        routerLinkActive="active">Login</a>
                 </li> 
             </ul>
             <!-- <app-cust></app-cust> --> 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right"  *ngIf="authService.isLoggedIn">
                 <li class="dropdown" appDropdown #r="appDropdown">
                     <a class="dropdown-toggle" role="button" data-toggle="dropdown" style="cursor: pointer">Manage <span
                             class="caret"></span></a>
                     <ul class="dropdown-menu" [ngClass]="{'show': r.isOpen}">
-                        <li><a class="dropdown-item" style="cursor: pointer;">Save Data</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;">Fetch Data</a></li>
+                        <li><a class="dropdown-item" 
+                            style="cursor: pointer;"
+                            (click)="logout()">Logout</a></li>
+                        <!-- <li><a class="dropdown-item" style="cursor: pointer;">Fetch Data</a></li> -->
                     </ul>
                 </li>
             </ul>
