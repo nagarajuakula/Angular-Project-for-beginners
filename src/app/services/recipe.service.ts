@@ -73,8 +73,8 @@ export class RecipeService {
   }
 
   deleteRecipe(index: number, recipeId: string) {
-    
-    this.httpClient.delete('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList/' + recipeId + '.json',
+    const recipeKey = recipeId["name"] ? recipeId["name"] : recipeId;
+    this.httpClient.delete('https://ng-recipe-book-2a04d.firebaseio.com/recipes/recipeList/' + recipeKey + '.json',
     {
       reportProgress: true
     }).

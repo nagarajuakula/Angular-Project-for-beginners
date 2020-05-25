@@ -23,12 +23,12 @@ export class CustomersComponent implements OnInit {
     // using Resolver to pre-fetch data
     this.activatedRoute.data.subscribe((data : { customers: Customer[]}) => {
       this.customers = data.customers;
-	  this.customerService.isLoading = false;
+	    this.customerService.isLoading = false;
     });
 
     this.customerService.customersUpdated.subscribe(customers => {
       this.customers = customers;
-	  this.customerService.isLoading = false;
+	    this.customerService.isLoading = false;
     });
     //this.getCustomers();
   }
